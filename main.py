@@ -254,6 +254,21 @@ def main():
         else:
             print(f"\n  Opcion '{opcion}' no reconocida.")
 
+def explicacion():
+    """
+    Dada una lista con 5 elementos de tipo entero, haciendo uso de la repetición for. 
+    muestra en pantalla la suma de esos 5 elementos,para ello vamos a usar 2 formas de suma. 
+    Una con variables (de tipo acumulador). Y la segunda forma es usando la instrucción sum."""
+
+    lista=[20,100,5000,2024,64]
+    suma_acumulador=0
+    for num in lista:
+        suma_acumulador = suma_acumulador+num
+    print("la suma de los valores de la lista es:" ,suma_acumulador)
+    
+    suma_con_funcion= sum(lista)
+    print("Resultado con la funcion sum()" , suma_con_funcion)
 
 if __name__ == "__main__":
-    main()
+    #main()
+    explicacion()
