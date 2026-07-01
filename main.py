@@ -121,26 +121,29 @@ def menu_ufuncs():
     print("\n--- Funciones universales ---")
 
     # TODO: descomenta cuando hayas implementado calcular_variacion_absoluta
-    # valores_anterior = np.array([
-    #     1_200_000, 900_000, 0, 2_100_000,
-    #     800_000, 3_000_000, 500_000, 1_000_000,
-    # ], dtype=np.float64)
-    # variacion = calcular_variacion_absoluta(VALORES_DECLARADOS, valores_anterior)
-    # print("\n  Variación absoluta respecto al período anterior:")
-    # for nit, var in zip(NITS, variacion):
-    #     print(f"  {nit} | ${var:>10,.0f}")
+    valores_anterior = np.array([
+         1_200_000, 900_000, 0, 2_100_000,
+         800_000, 3_000_000, 500_000, 1_000_000,
+     ], dtype=np.float64)
+    variacion = calcular_variacion_absoluta(VALORES_DECLARADOS, valores_anterior)
+    print("\n  Variación absoluta respecto al período anterior:")
+    for nit, var in zip(NITS, variacion):
+         print(f"  {nit} | ${var:>10,.0f}")
 
     # TODO: descomenta cuando hayas implementado normalizar_valores
-    # normalizados = normalizar_valores(VALORES_DECLARADOS)
-    # print("\n  Valores normalizados [0-1]:")
-    # for nit, norm in zip(NITS, normalizados):
-    #     print(f"  {nit} | {norm:.3f}")
+    #valores_prueba=[5,5,5,5,5]
+    #arreglo_valores_prueba = np.array(valores_prueba, dtype=np.float64)
+    #normalizados = normalizar_valores(arreglo_valores_prueba)
+    normalizados = normalizar_valores(VALORES_DECLARADOS)
+    print("\n  Valores normalizados [0-1]:")
+    for nit, norm in zip(NITS, normalizados):
+        print(f"  {nit} | {norm:.3f}")
 
     # TODO: descomenta cuando hayas implementado aplicar_raiz_cuadrada
-    # raices = aplicar_raiz_cuadrada(VALORES_DECLARADOS)
-    # print(f"\n  Raíz cuadrada (primeros 3): {raices[:3]}")
+    raices = aplicar_raiz_cuadrada(VALORES_DECLARADOS)
+    print(f"\n  Raíz cuadrada (primeros 4): {raices[:4]}")
 
-    print("\n  (función pendiente de implementar)")
+    #print("\n  (función pendiente de implementar)")
 
 
 def menu_boolean_arrays():
@@ -159,21 +162,21 @@ def menu_boolean_arrays():
     # print(f"  np.sum(arr):                {np.sum(VALORES_DECLARADOS)}")
 
     # TODO: descomenta cuando hayas implementado obtener_mascara_mora
-    # mascara = obtener_mascara_mora(DIAS_MORA)
-    # print(f"\n  Máscara de mora: {mascara}")
-    # print(f"  Registros en mora: {np.sum(mascara)} de {len(mascara)}")
+    mascara = obtener_mascara_mora(DIAS_MORA)
+    print(f"\n  Máscara de mora: {mascara}")
+    print(f"  Registros en mora: {np.sum(mascara)} de {len(mascara)}")
 
     # TODO: descomenta cuando hayas implementado filtrar_valores_con_mora
-    # en_mora = filtrar_valores_con_mora(VALORES_DECLARADOS, DIAS_MORA)
-    # print(f"\n  Valores declarados con mora:")
-    # for valor in en_mora:
-    #     print(f"    ${valor:,.0f}")
-    # print(f"  Total en riesgo: ${en_mora.sum():,.0f}")
+    en_mora = filtrar_valores_con_mora(VALORES_DECLARADOS, DIAS_MORA)
+    print(f"\n  Valores declarados con mora:")
+    for valor in en_mora:
+        print(f"    ${valor:,.0f}")
+    print(f"  Total en riesgo: ${en_mora.sum():,.0f}")
 
     # TODO: descomenta cuando hayas implementado contar_sobre_umbral
-    # umbral = 1_000_000
-    # cantidad = contar_sobre_umbral(VALORES_DECLARADOS, umbral)
-    # print(f"\n  Registros sobre ${umbral:,}: {cantidad}")
+    umbral = 1_000_000
+    cantidad = contar_sobre_umbral(VALORES_DECLARADOS, umbral)
+    print(f"\n  Registros sobre ${umbral:,}: {cantidad}")
 
     print("\n  (función pendiente de implementar)")
 
