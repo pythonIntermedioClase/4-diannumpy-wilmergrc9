@@ -39,18 +39,13 @@ python main.py
 3. Ejecuta `python main.py` y verifica la salida.
 4. `git add`, `commit` y `push` al terminar cada sección.
 
-
-**Curso:** Python Intermedio para Análisis de Datos — DIAN 2026  
-**Duración:** 4 horas (240 min) 
----
-
+--
 ## Índice
 
 - [Sección 0 — Configurar el nuevo entorno](#sección-0--configurar-el-nuevo-entorno)
 - [De dónde viene NumPy](#de-dónde-viene-numpy)
 - [Sección 1 — Arrays y tipos de datos](#sección-1--arrays-y-tipos-de-datos)
 - [Sección 2 — Indexación y slicing](#sección-2--indexación-y-slicing)
-- [Pausa](#pausa)
 - [Sección 3 — Vectorización](#sección-3--vectorización)
 - [Sección 4 — Funciones universales (ufuncs)](#sección-4--funciones-universales-ufuncs)
 - [Sección 5 — Arrays booleanos](#sección-5--arrays-booleanos)
@@ -867,17 +862,17 @@ Cuando C hace lo mismo, ya tiene las instrucciones del procesador listas. No ver
 
 La analogía: tienes que sellar 10.000 sobres.
 
-- Con Python puro: le explicas a alguien cómo sellar un sobre, esperas que lo haga, le explicas el siguiente, esperas...
+- Con Python: le explicas a alguien cómo sellar un sobre, esperas que lo haga, le explicas el siguiente, esperas...
 - Con NumPy y C por debajo: le das a una máquina selladora el lote completo y la pones a correr.
 
 El núcleo de NumPy está escrito en C. Cuando escribes `arr * 0.19`, Python le pasa el array completo a funciones C ya compiladas, que ejecutan la operación sobre todos los elementos en una sola pasada y devuelven el resultado. Tú escribes Python; el trabajo pesado lo hace C.
 
-> **Nota:** no necesitas aprender C para usar NumPy. Solo necesitas saber que está ahí, haciendo el trabajo rápido para que tú puedas escribir código legible.
+> **Nota:** no necesitas aprender C para usar NumPy. Solo necesitas saber que está ahí, haciendo el trabajo para que tú puedas escribir código legible.
 
 Además de usar C, NumPy guarda los datos en **memoria contigua**: todos los valores del array están uno al lado del otro en la RAM, sin saltos. Una lista de Python, en cambio, guarda referencias dispersas: la dirección de memoria de cada elemento. El procesador tiene que ir a buscar cada valor por separado. Con un array contiguo, puede cargar varios valores a la vez en su caché y operar sobre ellos en paralelo.
 
 ### Benchmark: ver la diferencia con tus propios ojos
-Antes de implementar las funciones de la sección, mide la diferencia real entre calcular el IVA con un ciclo `for` y con NumPy vectorizado:
+Antes de implementar las funciones de la sección, mide la diferencia entre calcular el IVA con un ciclo `for` y con NumPy vectorizado. Sigue los siguientes pasos:
 
 1. Abre `main.py`.
 2. Justo debajo de los `import` (antes de las funciones `menu_...`), pega esta función:
@@ -949,7 +944,7 @@ valores = np.array([1_000_000, 500_000, 2_000_000], dtype=np.float64)
 iva = valores * 0.19
 print(iva)   # [190000.  95000. 380000.]
 
-# Array + escalar
+# Array + Array
 con_iva = valores + iva
 print(con_iva)   # [1190000.  595000. 2380000.]
 
@@ -961,7 +956,7 @@ print(ajustados)   # [1000000.  450000. 2200000.]
 
 ### Cuando verificar con muestra manual
 
-La velocidad de NumPy tiene un costo de visibilidad: una operación que procesa miles de registros no te muestra qué hizo con cada uno. Si el resultado parece incorrecto, valores negativos donde no deberían existir, totales que no cierran, `nan` inesperados, el ciclo `for` de sesión 3 es la herramienta de diagnóstico que necesitas.
+La velocidad de NumPy tiene un costo de visibilidad: una operación que procesa miles de registros no te muestra qué hizo con cada uno. Si el resultado parece incorrecto, valores negativos donde no deberían existir, totales que no cierran, `nan` inesperados, el ciclo `for` es la herramienta de diagnóstico a utilizar en ese caso.
 
 El patrón es siempre el mismo:
 
@@ -1018,7 +1013,7 @@ def calcular_iva_todos(valores, tasa=0.19):
     """
     Calcula el IVA sobre cada valor declarado en el array.
 
-    En sesión 3 hacíamos esto con un ciclo for. Con NumPy, la multiplicación
+    Con NumPy, la multiplicación
     opera sobre todos los elementos simultáneamente.
 
     Args:
@@ -1070,11 +1065,9 @@ def calcular_valor_con_iva(valores, tasa=0.19):
 ```
 
 > **¿Por qué `factor_con_iva = 1 + tasa` es mejor que `valores + valores * tasa`?**
-> La primera forma recorre el array una sola vez, y de paso le pone nombre a lo que representa el número: el factor por el que se multiplica el valor base para obtener el valor con IVA incluido. La segunda forma recorre el array dos veces y no deja ningún rastro de qué significa la operación. Para arrays grandes, además, la diferencia de rendimiento es apreciable.
+> La primera forma recorre el array una sola vez, y de paso le pone nombre a lo que representa el número: el factor por el que se multiplica el valor base para obtener el valor con IVA incluido. La segunda forma recorre el array dos veces y no deja ningún rastro de qué significa la operación. Para arrays grandes, además, la diferencia de rendimiento es importante.
 
 #### `redondear_a_miles(arr)`
-
-En tributario, los valores suelen redondearse al múltiplo de 1.000 más cercano para coincidir con formularios.
 
 ```python
 def redondear_a_miles(arr):
@@ -1102,8 +1095,6 @@ def redondear_a_miles(arr):
     return miles_redondeados * 1000
 ```
 
-Tres pasos en vez de uno: dividir, redondear, multiplicar de vuelta. Nombrar cada resultado intermedio deja claro qué hace cada operación, en lugar de obligar a leer la expresión completa antes de entender qué representa.
-
 ### Verificar en main.py
 
 Descomenta los bloques dentro de `menu_vectorizacion()` y ejecuta `python main.py`, opción `3`.
@@ -1117,18 +1108,11 @@ La salida de `calcular_iva_todos` debería verse así:
   700345678 | $           0 | IVA: $          0
   ...
 ```
-
-### Pausa y piensa 💭
-
-> En sesión 3 implementaste `calcular_totales` usando un ciclo `for`. ¿Puedes reescribir esa función en una sola línea usando NumPy? ¿Cuándo preferirías la versión con ciclo y cuándo la versión vectorizada?
-
 ### Ejercicios — Sección 3
 
-**Básico:** Calcula el valor total de todas las declaraciones con `VALORES_DECLARADOS.sum()`. Luego calcula el promedio con `.mean()`. ¿Coincide el promedio con lo que esperarías a ojo?
+**Basico:** Implementa `calcular_retencion(valores, tasa=0.035)` que calcule la retención en la fuente (3.5 %) para cada declaración usando vectorización.
 
-**Intermedio:** Implementa `calcular_retencion(valores, tasa=0.035)` que calcule la retención en la fuente (3.5 %) para cada declaración usando vectorización.
-
-**Avanzado:** ¿Qué ocurre si `tasa` es un array de la misma longitud que `valores`? Crea `tasas = np.array([0.19, 0.05, 0.0, 0.19, 0.05, 0.19, 0.0, 0.05])` y pásalo como `tasa` a `calcular_iva_todos`. ¿Funciona? ¿Por qué NumPy permite esto?
+**Avanzado:** `tasa` ahora será un array de la misma longitud que `valores`.  Crea `tasas = np.array([0.19, 0.05, 0.0, 0.19, 0.05, 0.19, 0.0, 0.05])` y pásalo como `tasa` a `calcular_iva_todos`. ¿Funciona? ¿Por qué NumPy permite esto?
 
 ### Commit de sección
 
@@ -1804,7 +1788,7 @@ Al eliminar los ciclos, el código expresa la intención directamente: "multipli
 | 6 | `and` / `or` entre máscaras booleanas | `ValueError` | Usar `&` y `|` con paréntesis |
 | 7 | Paréntesis desbalanceados en `np.where` anidado | `SyntaxError` | Contar que hay tantos `)` como `np.where(` |
 
-### Conexión con la sesión 5
+### Conexión con las siguientes sesiones
 
 Una **Series** de pandas es internamente un array NumPy con un índice de etiquetas. Un **DataFrame** es una colección de Series alineadas por ese mismo índice. Todas las operaciones de hoy, máscaras, `np.where`, vectorización, funcionan directamente sobre columnas de DataFrames.
 
