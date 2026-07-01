@@ -10,7 +10,7 @@ Fecha: [Fecha de la sesión]
 """
 
 import numpy as np
-
+import time
 
 # ---------------------------------------------------------------------------
 # Datos de práctica
@@ -241,7 +241,8 @@ def calcular_iva_todos(valores, tasa=0.19):
         -> array([190000.,  95000.])
     """
     # TODO: retorna valores * tasa (una sola operación, sin ciclo)
-    pass
+    #pass
+    return valores*tasa
 
 
 def calcular_valor_con_iva(valores, tasa=0.19):
@@ -262,7 +263,9 @@ def calcular_valor_con_iva(valores, tasa=0.19):
     # TODO:
     # 1. Guarda 1 + tasa en una variable factor_con_iva
     # 2. Retorna valores * factor_con_iva
-    pass
+    #pass
+    factor_con_iva = 1 + tasa
+    return valores*factor_con_iva
 
 
 def redondear_a_miles(arr):
@@ -283,7 +286,10 @@ def redondear_a_miles(arr):
     # 1. Divide arr entre 1000 y guarda en valor_en_miles
     # 2. Aplica np.round a valor_en_miles y guarda en miles_redondeados
     # 3. Retorna miles_redondeados * 1000
-    pass
+    #pass
+    valor_en_miles=arr/1000
+    miles_redondeados = np.round(valor_en_miles)
+    return miles_redondeados * 1000
 
 
 # ===========================================================================
@@ -309,7 +315,7 @@ def calcular_variacion_absoluta(valores_actuales, valores_anteriores):
         -> array([200000., 100000.,      0.])
     """
     # TODO: usa np.abs(valores_actuales - valores_anteriores)
-    pass
+    #pass
 
 
 def normalizar_valores(arr):
@@ -583,3 +589,43 @@ def calcular_sanciones_vectorizadas(valores, dias_mora):
     #    )
     # 3. Retorna valores * tasa
     pass
+
+def medir_diferencia_vectorizacion(n=1_000_000):
+    """
+    Compara el tiempo de calcular el IVA con un ciclo for vs. con NumPy.
+
+    Construye una lista de n valores, calcula el IVA (valor * 0.19) con un
+    ciclo for sobre la lista y con una operación vectorizada sobre el array
+    equivalente, e imprime el tiempo de cada enfoque.
+
+    Args:
+        n (int): Cantidad de declaraciones a simular. Por defecto 1.000.000.
+
+    Ejemplo:
+        medir_diferencia_vectorizacion()
+        -> imprime el tiempo de cada enfoque y cuántas veces más rápido es NumPy.
+    """
+    lista = []
+    for i in range(n):
+        lista.append(float(i * 1000))
+    arr = np.array(lista, dtype=np.float64)
+
+    # --- Con ciclo for sobre lista ---
+    inicio = time.time()
+    iva_lista = []
+    for valor in lista:
+        iva_lista.append(valor * 0.19)
+    tiempo_lista = time.time() - inicio
+
+    # --- Con vectorización NumPy ---
+    inicio = time.time()
+    iva_array = arr * 0.19
+    tiempo_numpy = time.time() - inicio
+
+    print(f"Lista + ciclo for : {tiempo_lista:.4f} s")
+    print(f"Array NumPy       : {tiempo_numpy:.4f} s")
+    print(f"NumPy es {tiempo_lista / tiempo_numpy:.0f}x más rápido")
+
+
+
+

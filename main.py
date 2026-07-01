@@ -11,6 +11,7 @@
 #   4. git add, commit y push al terminar cada sección.
 
 import numpy as np
+import time
 
 from src.numpy_utils import VALORES_DECLARADOS, DIAS_MORA, NITS
 
@@ -40,7 +41,7 @@ from src.numpy_utils import contar_sobre_umbral
 from src.numpy_utils import clasificar_valores_vectorizado
 from src.numpy_utils import aplicar_descuento_vectorizado
 from src.numpy_utils import calcular_sanciones_vectorizadas
-
+from src.numpy_utils import medir_diferencia_vectorizacion
 
 # ---------------------------------------------------------------------------
 # Menú
@@ -98,21 +99,21 @@ def menu_vectorizacion():
     print("\n--- Vectorización ---")
 
     # TODO: descomenta cuando hayas implementado calcular_iva_todos
-    # iva = calcular_iva_todos(VALORES_DECLARADOS)
-    # print("\n  IVA por declaración:")
-    # for i, (nit, valor, monto_iva) in enumerate(
-    #         zip(NITS, VALORES_DECLARADOS, iva)):
-    #     print(f"  {nit} | ${valor:>12,.0f} | IVA: ${monto_iva:>10,.0f}")
+    iva = calcular_iva_todos(VALORES_DECLARADOS)
+    print("\n  IVA por declaración:")
+    for i, (nit, valor, monto_iva) in enumerate(
+             zip(NITS, VALORES_DECLARADOS, iva)):
+         print(f"  {nit} | ${valor:>12,.0f} | IVA: ${monto_iva:>10,.0f}")
 
     # TODO: descomenta cuando hayas implementado calcular_valor_con_iva
-    # con_iva = calcular_valor_con_iva(VALORES_DECLARADOS)
-    # print(f"\n  Primeros 3 valores con IVA: {con_iva[:3]}")
+    con_iva = calcular_valor_con_iva(VALORES_DECLARADOS)
+    print(f"\n  Primeros 3 valores con IVA: {con_iva[:3]}")
 
     # TODO: descomenta cuando hayas implementado redondear_a_miles
-    # redondeados = redondear_a_miles(VALORES_DECLARADOS * 1.19)
-    # print(f"\n  Valores con IVA redondeados a miles: {redondeados}")
+    redondeados = redondear_a_miles(VALORES_DECLARADOS * 1.19)
+    print(f"\n  Valores con IVA redondeados a miles: {redondeados}")
 
-    print("\n  (función pendiente de implementar)")
+    #print("\n  (función pendiente de implementar)")
 
 
 def menu_ufuncs():
@@ -272,3 +273,6 @@ def explicacion():
 if __name__ == "__main__":
     main()
     #explicacion()
+    #medir_diferencia_vectorizacion()
+    
+    
