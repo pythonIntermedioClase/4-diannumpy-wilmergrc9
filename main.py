@@ -192,15 +192,15 @@ def menu_np_where():
     #     print(f"  {nit} | ${valor:>12,.0f} | {cat}")
 
     # TODO: descomenta cuando hayas implementado aplicar_descuento_vectorizado
-    # pagos_voluntarios = np.array([True, False, False, True,
-    #                               False, True, False, False])
-    # con_descuento = aplicar_descuento_vectorizado(
-    #     VALORES_DECLARADOS, pagos_voluntarios)
-    # print("\n  Valores con descuento voluntario:")
-    # for nit, original, final, voluntario in zip(
-    #         NITS, VALORES_DECLARADOS, con_descuento, pagos_voluntarios):
-    #     marca = " ← descuento 10%" if voluntario else ""
-    #     print(f"  {nit} | ${original:>12,.0f} → ${final:>12,.0f}{marca}")
+    pagos_voluntarios = np.array([True, False, False, True,
+                                   False, True, False, False])
+    con_descuento = aplicar_descuento_vectorizado(
+        VALORES_DECLARADOS, pagos_voluntarios)
+    print("\n  Valores con descuento voluntario:")
+    for nit, original, final, voluntario in zip(
+            NITS, VALORES_DECLARADOS, con_descuento, pagos_voluntarios):
+        marca = " ← descuento 10%" if voluntario else ""
+        print(f"  {nit} | ${original:>12,.0f} → ${final:>12,.0f}{marca}")
 
     # TODO: descomenta cuando hayas implementado calcular_sanciones_vectorizadas
     # sanciones = calcular_sanciones_vectorizadas(VALORES_DECLARADOS, DIAS_MORA)

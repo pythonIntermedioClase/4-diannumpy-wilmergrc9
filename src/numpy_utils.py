@@ -548,7 +548,10 @@ def aplicar_descuento_vectorizado(valores, pagos_voluntarios):
     # 1. Guarda 0.90 en factor_descuento
     # 2. Calcula valores_con_descuento = valores * factor_descuento
     # 3. Retorna np.where(pagos_voluntarios, valores_con_descuento, valores)
-    pass
+    #pass
+    factor_descuento=0.90
+    valores_con_descuento = valores*factor_descuento
+    return np.where(pagos_voluntarios,valores_con_descuento,valores)
 
 
 def calcular_sanciones_vectorizadas(valores, dias_mora):
